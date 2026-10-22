@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd recycling-pickup-exchange/frontend && npm ci && npm run build",
+  "outputDirectory": "recycling-pickup-exchange/frontend/dist",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index.py" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ]
+}
