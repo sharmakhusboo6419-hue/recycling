@@ -1,5 +1,5 @@
 // Thin fetch wrapper around the backend REST API with consistent error handling.
-const BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const BASE = import.meta.env.VITE_API_URL || "/api";
 
 async function request(path, options = {}) {
   const res = await fetch(`${BASE}${path}`, {
