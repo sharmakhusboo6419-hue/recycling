@@ -1,8 +1,26 @@
 {
-  "buildCommand": "cd recycling-pickup-exchange/frontend && npm ci && npm run build",
-  "outputDirectory": "recycling-pickup-exchange/frontend/dist",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "recycling-pickup-exchange/backend",
+      "framework": "fastapi"
+    },
+    "frontend": {
+      "root": "recycling-pickup-exchange/frontend",
+      "framework": "vite",
+      "installCommand": "npm ci",
+      "buildCommand": "npm run build",
+      "outputDirectory": "dist"
+    }
+  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.py" },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/api/(.*)",
+      "destination": { "service": "backend" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "service": "frontend" }
+    }
   ]
 }
