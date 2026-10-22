@@ -2,7 +2,7 @@
 
 **Making recyclable waste collection simpler, more organized, and transparent.**
 
-🔗 **Live Website:** https://recycling-dsf1.vercel.app/
+🔗 **Live Website:** https://recycling-two.vercel.app/
 
 ## 📌 About the Project
 
@@ -61,3 +61,4 @@ This project is under development. Features described as planned may not yet be 
 ## 👩‍💻 Contribution
 
 Suggestions and contributions that improve recyclable material classification, pickup management, and collection transparency are welcome.
+
