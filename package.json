@@ -1,0 +1,9 @@
+{
+  "name": "recycling-pickup-exchange-workspace",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix recycling-pickup-exchange/frontend run dev --",
+    "build": "npm --prefix recycling-pickup-exchange/frontend run build",
+    "lint": "npm --prefix recycling-pickup-exchange/frontend run lint"
+  }
+}
