@@ -11,7 +11,7 @@ import hashlib
 import json
 
 from starlette.middleware.base import BaseHTTPMiddleware
-from fastapi.responses import JSONResponse
+from starlette.responses import Response
 
 # Methods that can be cached/validated.
 SAFE_METHODS = {"GET", "HEAD"}
@@ -29,12 +29,13 @@ class ETagMiddleware(BaseHTTPMiddleware):
             etag = 'W/"%s"' % hashlib.md5(body).hexdigest()
             if request.headers.get("if-none-match") == etag:
                 # Unchanged — respond 304 with an empty body.
-                not_modified = JSONResponse(content=None, status_code=304)
+                not_modified = Response(status_code=304)
                 not_modified.headers["ETag"] = etag
                 not_modified.headers["Cache-Control"] = "no-cache"
                 return not_modified
 
             response.headers["ETag"] = etag
+            response.headers["Content-Length"] = str(len(body))
             # Small freshness window + always revalidate afterwards.
             response.headers["Cache-Control"] = "public, max-age=5, must-revalidate"
 
