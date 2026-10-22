@@ -16,12 +16,19 @@ export default function App() {
       ? <HouseholdDashboard />
       : <CollectorDashboard />;
 
+  const dashboard = profile
+    ? profile.role === "household"
+      ? <HouseholdDashboard />
+      : <CollectorDashboard />
+    : <Navigate to="/switch" replace />;
+
   return (
     <div className="app">
       <Header />
       <main>
         <Routes>
           <Route path="/" element={home} />
+          <Route path="/dashboard" element={dashboard} />
           <Route path="/switch" element={<ProfilePicker />} />
           <Route path="/stats" element={profile ? <Stats /> : <Navigate to="/switch" replace />} />
           <Route path="/profile" element={profile ? <CollectorProfile /> : <Navigate to="/switch" replace />} />
@@ -29,7 +36,7 @@ export default function App() {
         </Routes>
       </main>
       <footer className="footer muted">
-        Team Nexora · Tech Fusion 2026 · Recycling Pickup Exchange prototype
+        Team Nexora · Tech Fusion 2026 · EcoRoute prototype
       </footer>
     </div>
   );

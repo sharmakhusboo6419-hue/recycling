@@ -64,8 +64,12 @@ export default function CollectorProfile() {
 
   return (
     <div className="dash">
+      <section className="dashboard-intro">
+        <div><div className="eyebrow">Collector settings</div><h1>Fine-tune your local route.</h1><p>Keep your coverage and accepted materials up to date so the right pickups find you.</p></div>
+        <div className="dispatch-note"><strong>Matching matters</strong><span>Active collectors receive requests aligned with their areas and materials.</span></div>
+      </section>
       <section className="card narrow">
-        <h2>Collector profile</h2>
+        <div className="section-heading"><h2>Collector profile</h2><p className="muted">Your availability and coverage.</p></div>
         <form className="req-form" onSubmit={save}>
           <label>Name <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} /></label>
           <label>Phone <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></label>

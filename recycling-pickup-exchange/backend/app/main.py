@@ -9,6 +9,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.caching import ETagMiddleware
 from app.database import init_db
 from app.routers import collector, household, profiles, stats
 
@@ -24,7 +25,7 @@ app = FastAPI(
 
 # CORS: allow the Vite dev server (env-configurable, comma-separated list).
 allowed_origins = os.getenv(
-    "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+    "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://127.0.0.1:5174"
 ).split(",")
 app.add_middleware(
     CORSMiddleware,
@@ -33,6 +34,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.add_middleware(ETagMiddleware)
 
 app.include_router(profiles.router)
 app.include_router(household.router)

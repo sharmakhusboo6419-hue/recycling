@@ -9,15 +9,16 @@
   max-width: min(90vw, 380px);
 }
 .toast {
-  padding: 0.7rem 1rem;
-  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 9px 9px 9px 2px;
   color: #fff;
   font-size: 0.9rem;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 28px rgba(10, 45, 35, 0.25);
   animation: toast-in 0.25s ease;
 }
-.toast-success { background: #2e7d43; }
-.toast-error { background: #c64544; }
+.toast-success { background: #174d3b; }
+.toast-error { background: #a94038; }
 @keyframes toast-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }

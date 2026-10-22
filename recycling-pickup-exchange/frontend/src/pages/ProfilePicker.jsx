@@ -75,20 +75,39 @@ export default function ProfilePicker() {
 
   return (
     <div className="picker">
-      <div className="picker-card">
-        <h1>♻️ Recycling Pickup Exchange</h1>
-        <p className="muted">Team Nexora · Tech Fusion 2026 — connect your recyclables with local collectors.</p>
+      <aside className="picker-aside">
+        <div className="picker-kicker"><span aria-hidden="true">↻</span> Loop Local</div>
+        <div className="picker-aside-copy">
+          <h1>Good things deserve another go-round.</h1>
+          <p>A neighbourly exchange for giving paper, plastic and more a useful next chapter.</p>
+        </div>
+        <div className="picker-circulation"><b aria-hidden="true">↻</b><span>Request it.<br />Collect it. Keep it moving.</span></div>
+      </aside>
+      <div className="picker-panel"><div className="picker-card">
+        <h2>Join the neighbourhood loop</h2>
+        <p className="muted">Choose how you’d like to participate today.</p>
 
         <div className="role-tabs" role="tablist" aria-label="Choose role">
           {["household", "collector"].map((r) => (
             <button key={r} role="tab" aria-selected={role === r}
               className={role === r ? "active" : ""} onClick={() => setRole(r)}>
-              {r === "household" ? "🏠 I'm a Household" : "🚛 I'm a Collector"}
+              <span className="role-tab-icon" aria-hidden="true">{r === "household" ? "⌂" : "↗"}</span>
+              {r === "household" ? "I’m a household" : "I’m a collector"}
             </button>
           ))}
         </div>
 
-        <h2>Continue as an existing {role}</h2>
+        <section className="trust-strip" aria-labelledby="trust-title">
+          <div><span className="picker-section-label" id="trust-title">How the loop stays trustworthy</span><p>Each hand-off leaves a clear, accountable trail.</p></div>
+          <ol>
+            <li><b>1</b><span><strong>Request</strong>Post an estimate and area.</span></li>
+            <li><b>2</b><span><strong>Eligible</strong>Only matching collectors see it.</span></li>
+            <li><b>3</b><span><strong>Protected</strong>One collector can secure it.</span></li>
+            <li><b>4</b><span><strong>Measured</strong>Actual kg is recorded.</span></li>
+          </ol>
+        </section>
+
+        <p className="picker-section-label">Continue as an existing {role}</p>
         {list.length === 0 && <p className="muted">No {role} profiles yet — create one below.</p>}
         <ul className="profile-list">
           {list.map((p) => (
@@ -150,7 +169,7 @@ export default function ProfilePicker() {
         ) : (
           <button className="link" onClick={() => setCreating(true)}>+ Create a new {role} profile</button>
         )}
-      </div>
+      </div></div>
     </div>
   );
 }
