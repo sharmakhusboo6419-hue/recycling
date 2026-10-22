@@ -11,8 +11,10 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 load_dotenv()
 
-# Env-based DATABASE_URL, defaulting to a local SQLite file.
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./recycling.db")
+# Env-based DATABASE_URL. Vercel's bundle is read-only, so its fallback uses
+# writable temporary storage for smoke tests; production should use PostgreSQL.
+default_database_url = "sqlite:////tmp/recycling.db" if os.getenv("VERCEL") else "sqlite:///./recycling.db"
+DATABASE_URL = os.getenv("DATABASE_URL", default_database_url)
 
 # check_same_thread=False is required for SQLite + FastAPI's threadpool.
 # For a concurrent-claim test we need cross-thread writes, so enable it.

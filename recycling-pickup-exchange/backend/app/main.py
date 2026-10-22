@@ -37,6 +37,15 @@ app.add_middleware(
 
 app.add_middleware(ETagMiddleware)
 
+
+@app.middleware("http")
+async def strip_vercel_api_prefix(request: Request, call_next):
+    """Allow the Vercel service rewrite to preserve the public /api prefix."""
+    if request.scope["path"].startswith("/api"):
+        request.scope["path"] = request.scope["path"][4:] or "/"
+        request.scope["raw_path"] = request.scope["raw_path"][4:] or b"/"
+    return await call_next(request)
+
 app.include_router(profiles.router)
 app.include_router(household.router)
 app.include_router(collector.router)
