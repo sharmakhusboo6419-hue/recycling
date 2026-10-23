@@ -9,24 +9,38 @@ export default function CollectorProfile() {
   const { profile, setProfile } = useProfile();
   const toast = useToast();
   const [form, setForm] = useState(null);
+  const [error, setError] = useState(null);
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     if (profile?.role !== "collector") return;
-    api.getCollector(profile.id).then((c) =>
-      setForm({
-        name: c.name,
-        phone: c.phone,
-        accepted_materials: c.accepted_materials,
-        service_areas: c.service_areas.join(", "),
-        max_capacity_kg: c.max_capacity_kg ?? "",
-        active: c.active,
-      })
-    ).catch((e) => toast.error(e.message));
+    api.getCollector(profile.id)
+      .then((c) =>
+        setForm({
+          name: c.name,
+          phone: c.phone,
+          accepted_materials: c.accepted_materials,
+          service_areas: c.service_areas.join(", "),
+          max_capacity_kg: c.max_capacity_kg ?? "",
+          active: c.active,
+        })
+      )
+      .catch((e) => {
+        setError(e.message);
+        toast.error(e.message);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [profile?.id]);
 
   if (!profile || profile.role !== "collector") {
     return <p className="center muted">Collector profile page — switch to a collector profile first.</p>;
+  }
+  if (error) {
+    return (
+      <p className="center muted">
+        Couldn’t load this collector profile: {error}<br />Check that the backend is running, or switch profile and try again.
+      </p>
+    );
   }
   if (!form) return <p className="muted">Loading…</p>;
 
