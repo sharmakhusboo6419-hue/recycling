@@ -17,6 +17,17 @@ load_dotenv()
 
 init_db()
 
+# Serverless platforms (Vercel): the module is cold-imported per instance and
+# the ephemeral SQLite file starts empty. Seed demo profiles on first boot so
+# the app is usable immediately instead of showing empty lists.
+if os.getenv("VERCEL") or os.getenv("SEED_DEMO_DATA"):
+    try:
+        from seed import main as seed_main
+
+        seed_main()
+    except Exception:  # noqa: BLE001 — seeding must never block startup
+        pass
+
 app = FastAPI(
     title="Recycling Pickup Exchange",
     description="Connects households with recyclable-waste collectors. Team Nexora — Tech Fusion 2026.",

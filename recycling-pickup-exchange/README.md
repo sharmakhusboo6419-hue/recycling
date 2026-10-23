@@ -146,3 +146,28 @@ Errors are always `{"detail": "<human-readable message>"}` with 403 / 404 / 409 
 - The frontend polls lists every 10 s (no websockets, per scope).
 - Capacity check: a request is invisible to a collector if `estimated_weight_kg >
   max_capacity_kg` (when capacity is set).
+
+
+---
+
+## Deploying to Vercel
+
+This repo deploys as a single Vercel project with two services, driven by the
+top-level `vercel.json` (`services` + top-level `rewrites`):
+
+- `frontend` — Vite build (root `recycling-pickup-exchange/frontend`).
+- `backend` — FastAPI (root `recycling-pickup-exchange/backend`), exposed publicly via the `/api/(.*)` rewrite.
+
+Two things to know about the deployed backend:
+
+1. **SPA deep links:** the frontend service's own `vercel.json` rewrites every
+   non-asset path to `/index.html`, so `/profile`, `/dashboard`, `/stats` all work
+   on refresh (they were 404s before the `((?!api/))` lookahead was removed —
+   path-to-regexp only supports a single leading `(?!)` group, and any extra
+   capture group makes Vercel's matcher throw).
+2. **Demo data on serverless:** Vercel's runtime is ephemeral, so the SQLite
+   database starts empty on every cold start. The backend seeds the demo
+   dataset automatically when `VERCEL=1` (or `SEED_DEMO_DATA=1`) — see
+   `app/main.py`. Without it, `/api/collectors` returns `[]` and profile
+   switching fails. For real persistence, set `DATABASE_URL` to a Postgres URL
+   in the backend's service environment variables.
